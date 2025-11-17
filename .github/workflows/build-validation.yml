@@ -44,7 +44,7 @@ jobs:
           container:
             - 'Containers/**'
           ai-ml:
-            - 'Artificial Intelligence and Machine Learning/**'
+            - 'Disabled for now/**'
           iot:
             - 'IoT/**'
           blazor-hybrid:
