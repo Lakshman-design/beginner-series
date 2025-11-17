@@ -51,7 +51,6 @@ jobs:
             - 'Blazor Hybrid/**'
           maui:
             - '.NET MAUI/**'
-            - 'Blazor Hybrid/**'
 
   build-dotnet-samples:
     name: Build .NET Samples
@@ -221,7 +220,7 @@ jobs:
 
   build-blazor-hybrid-samples:
     name: Build Blazor Hybrid Samples
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     needs: changes
     if: ${{ needs.changes.outputs.blazor-hybrid == 'true' }}
     
@@ -235,6 +234,12 @@ jobs:
         
     - name: Install .NET MAUI workload
       run: dotnet workload install maui
+
+    - name: Restore HybridTodoApp
+      run: dotnet restore "Blazor Hybrid/sample-code/HybridTodoApp.sln"
+    
+    - name: Build HybridTodoApp (Windows only)
+      run: dotnet build "Blazor Hybrid/sample-code/HybridTodoApp/HybridTodoApp.csproj" -f net10.0-windows10.0.19041.0
     
     - name: Build HybridTodoApp Components
       run: dotnet build "Blazor Hybrid/sample-code/HybridTodoApp.Components/HybridTodoApp.Components.csproj"
@@ -265,9 +270,3 @@ jobs:
     
     - name: Build MauiApp2 (Windows only)
       run: dotnet build ".NET MAUI/sample-code/MauiApp2.sln" -f net10.0-windows10.0.19041.0
-    
-    - name: Restore HybridTodoApp
-      run: dotnet restore "Blazor Hybrid/sample-code/HybridTodoApp.sln"
-    
-    - name: Build HybridTodoApp (Windows only)
-      run: dotnet build "Blazor Hybrid/sample-code/HybridTodoApp/HybridTodoApp.csproj" -f net10.0-windows10.0.19041.0
