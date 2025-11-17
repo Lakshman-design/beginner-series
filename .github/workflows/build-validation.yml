@@ -201,10 +201,6 @@ jobs:
     - name: Build MauiApp2 (Windows only)
       run: dotnet build ".NET MAUI/sample-code/MauiApp2.sln" -f net10.0-windows10.0.19041.0
     
-    - name: Install MAUI workload for Blazor Hybrid
-      run: dotnet workload install maui-blazor
-      continue-on-error: true
-    
     - name: Restore HybridTodoApp
       run: dotnet restore "Blazor Hybrid/sample-code/HybridTodoApp.sln"
     
