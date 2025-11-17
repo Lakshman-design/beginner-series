@@ -8,9 +8,53 @@ on:
   workflow_dispatch:
 
 jobs:
+  changes:
+    name: Detect Changes
+    runs-on: ubuntu-latest
+    outputs:
+      dotnet: ${{ steps.filter.outputs.dotnet }}
+      blazor: ${{ steps.filter.outputs.blazor }}
+      webapi: ${{ steps.filter.outputs.webapi }}
+      nuget: ${{ steps.filter.outputs.nuget }}
+      visualstudio: ${{ steps.filter.outputs.visualstudio }}
+      container: ${{ steps.filter.outputs.container }}
+      ai-ml: ${{ steps.filter.outputs.ai-ml }}
+      iot: ${{ steps.filter.outputs.iot }}
+      blazor-hybrid: ${{ steps.filter.outputs.blazor-hybrid }}
+      maui: ${{ steps.filter.outputs.maui }}
+    steps:
+    - uses: actions/checkout@v4
+    - uses: dorny/paths-filter@v3
+      id: filter
+      with:
+        filters: |
+          dotnet:
+            - '.NET/**'
+          blazor:
+            - 'Frontend Web with Blazor/**'
+          webapi:
+            - 'Backend Web with Web APIs/**'
+          nuget:
+            - 'Package Management with NuGet/**'
+          visualstudio:
+            - 'Visual Studio/**'
+          container:
+            - 'Containers/**'
+          ai-ml:
+            - 'Artificial Intelligence and Machine Learning/**'
+          iot:
+            - 'IoT/**'
+          blazor-hybrid:
+            - 'Blazor Hybrid/**'
+          maui:
+            - '.NET MAUI/**'
+            - 'Blazor Hybrid/**'
+
   build-dotnet-samples:
     name: Build .NET Samples
     runs-on: ubuntu-latest
+    needs: changes
+    if: ${{ needs.changes.outputs.dotnet == 'true' }}
     
     steps:
     - uses: actions/checkout@v4
@@ -29,6 +73,8 @@ jobs:
   build-blazor-samples:
     name: Build Blazor Samples
     runs-on: ubuntu-latest
+    needs: changes
+    if: ${{ needs.changes.outputs.blazor == 'true' }}
     
     steps:
     - uses: actions/checkout@v4
@@ -59,6 +105,8 @@ jobs:
   build-webapi-samples:
     name: Build Web API Samples
     runs-on: ubuntu-latest
+    needs: changes
+    if: ${{ needs.changes.outputs.webapi == 'true' }}
     
     steps:
     - uses: actions/checkout@v4
@@ -74,6 +122,8 @@ jobs:
   build-nuget-samples:
     name: Build NuGet Samples
     runs-on: ubuntu-latest
+    needs: changes
+    if: ${{ needs.changes.outputs.nuget == 'true' }}
     
     steps:
     - uses: actions/checkout@v4
@@ -92,6 +142,8 @@ jobs:
   build-visualstudio-samples:
     name: Build Visual Studio Samples
     runs-on: ubuntu-latest
+    needs: changes
+    if: ${{ needs.changes.outputs.visualstudio == 'true' }}
     
     steps:
     - uses: actions/checkout@v4
@@ -107,6 +159,8 @@ jobs:
   build-container-samples:
     name: Build Container Samples
     runs-on: ubuntu-latest
+    needs: changes
+    if: ${{ needs.changes.outputs.container == 'true' }}
     
     steps:
     - uses: actions/checkout@v4
@@ -122,6 +176,8 @@ jobs:
   build-ai-ml-samples:
     name: Build AI/ML Samples
     runs-on: ubuntu-latest
+    needs: changes
+    if: ${{ needs.changes.outputs.ai-ml == 'true' }}
     
     steps:
     - uses: actions/checkout@v4
@@ -140,6 +196,8 @@ jobs:
   build-iot-samples:
     name: Build IoT Samples
     runs-on: ubuntu-latest
+    needs: changes
+    if: ${{ needs.changes.outputs.iot == 'true' }}
     
     steps:
     - uses: actions/checkout@v4
@@ -161,6 +219,8 @@ jobs:
   build-blazor-hybrid-samples:
     name: Build Blazor Hybrid Samples
     runs-on: ubuntu-latest
+    needs: changes
+    if: ${{ needs.changes.outputs.blazor-hybrid == 'true' }}
     
     steps:
     - uses: actions/checkout@v4
@@ -182,6 +242,8 @@ jobs:
   build-maui-samples:
     name: Build MAUI Samples (Windows)
     runs-on: windows-latest
+    needs: changes
+    if: ${{ needs.changes.outputs.maui == 'true' }}
     # Note: MAUI projects require platform-specific workloads and are built on Windows
     
     steps:
