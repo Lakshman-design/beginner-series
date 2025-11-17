@@ -188,12 +188,15 @@ jobs:
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: '10.0.x'
+
+    - name: Build MLModels
+      run: dotnet build "Artificial Intelligence and Machine Learning/sample-code/src/MLModels/MLModels.csproj"
+
+    - name: Build ChatGPT Plugin
+      run: dotnet build "Artificial Intelligence and Machine Learning/sample-code/src/GitHubIssuesWebApi/GitHubIssuesWebApi.csproj"
     
     - name: Build ChatGPT Plugin
       run: dotnet build "Artificial Intelligence and Machine Learning/sample-code/src/chatgpt-plugin/chatgpt-plugin.csproj"
-    
-    - name: Build MLModels
-      run: dotnet build "Artificial Intelligence and Machine Learning/sample-code/src/MLModels/MLModels.csproj"
 
   build-iot-samples:
     name: Build IoT Samples
